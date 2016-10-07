@@ -5,7 +5,7 @@ using namespace std;
 
 vec3::vec3()
 {
-
+    zeros();
 }
 vec3::vec3(double x, double y, double z)
 {
@@ -24,6 +24,24 @@ double vec3::length()
 {
     // Returns the length (or norm) of the vector
     return sqrt(lengthSquared());
+}
+
+void vec3::print()
+{
+    cout << "[" << components[0] << ", " << components[1] << ", " << components[2] << "]" << endl;
+}
+
+void vec3::printName(string name)
+{
+    cout << name << ": ";
+    print();
+}
+
+void vec3::zeros()
+{
+    components[0] = 0;
+    components[1] = 0;
+    components[2] = 0;
 }
 
 vec3 &vec3::operator+=(double rhs)

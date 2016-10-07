@@ -1,6 +1,7 @@
 #ifndef VEC3_H
 #define VEC3_H
 
+#include <iostream>
 
 class vec3
 {
@@ -9,8 +10,11 @@ public:
     vec3(double x, double y, double z);
     double lengthSquared();
     double length();
+    void print();
+    void printName(std::string name);
 
     // Actions
+    void zeros();
 
     // Operators
     double &operator()(int index) { return components[index]; } // Allows access like myVector(0)

@@ -1,9 +1,12 @@
 #include <iostream>
+#include "vec3.h"
 
 using namespace std;
 
 int main()
 {
-    cout << "Hello World!" << endl;
+    vec3 velocity(1,2,3);
+    cout << "Hello World! " << endl;
+    velocity.printName("Velocity");
     return 0;
 }
