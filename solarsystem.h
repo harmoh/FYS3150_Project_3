@@ -10,6 +10,7 @@ public:
     SolarSystem();
     CelestialBody &createCelestialBody(vec3 position, vec3 velocity, double mass);
 
+    int numberOfBodies() const;
     std::vector<CelestialBody> &bodies();
 
 private:

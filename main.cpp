@@ -1,12 +1,15 @@
 #include <iostream>
 #include "vec3.h"
+#include "celestialbody.h"
+#include "solarsystem.h"
 
 using namespace std;
 
 int main()
 {
-    vec3 velocity(1,2,3);
     cout << "Hello World! " << endl;
-    velocity.printName("Velocity");
+    SolarSystem solarSystem;
+    solarSystem.createCelestialBody(vec3(1,0,0), vec3(0,0,0), 15);
+
     return 0;
 }
