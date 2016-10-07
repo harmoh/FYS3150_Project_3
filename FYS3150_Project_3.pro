@@ -4,7 +4,11 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    vec3.cpp
+    vec3.cpp \
+    solarsystem.cpp \
+    celestialbody.cpp
 
 HEADERS += \
-    vec3.h
+    vec3.h \
+    solarsystem.h \
+    celestialbody.h
