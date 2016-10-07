@@ -8,13 +8,21 @@ class vec3
 public:
     vec3();
     vec3(double x, double y, double z);
+
+    // Actions
+    void zeros();
     double lengthSquared();
     double length();
     void print();
     void printName(std::string name);
 
-    // Actions
-    void zeros();
+    // Get and set components
+    double x() {return components[0];}
+    double y() {return components[1];}
+    double z() {return components[2];}
+    void setX(double x) {components[0] = x;}
+    void setY(double y) {components[1] = y;}
+    void setZ(double z) {components[2] = z;}
 
     // Operators
     double &operator()(int index) { return components[index]; } // Allows access like myVector(0)
