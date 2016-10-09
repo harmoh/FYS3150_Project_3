@@ -18,14 +18,11 @@ int SolarSystem::numberOfBodies() const
     return m_bodies.size();
 }
 
-std::vector<CelestialBody> &SolarSystem::bodies()
-{
-    return m_bodies;
-}
-
 void SolarSystem::writeToFile(string filename)
 {
-    if(!ofile.good())
+    filename.append(".txt");
+
+    if(ofile.good())
     {
         ofile.open(filename.c_str(), ofstream::out);
         if(!ofile.good())
@@ -35,11 +32,16 @@ void SolarSystem::writeToFile(string filename)
         }
     }
 
-    ofile << numberOfBodies() << endl;
+    ofile << "Number of bodies: " << numberOfBodies() << endl;
     ofile <<"Comment line. " << endl;
     for(CelestialBody &body : m_bodies)
     {
-        ofile << "1 " << body.position.x() << " " << body.position.y() << " " <<
-                 body.position.y() << endl;
+        ofile << "[" << body.position.x() << ", " << body.position.y() << ", " <<
+                 body.position.z() << "]" << endl;
     }
+}
+
+std::vector<CelestialBody> &SolarSystem::bodies()
+{
+    return m_bodies;
 }

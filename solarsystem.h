@@ -13,8 +13,8 @@ public:
     CelestialBody &createCelestialBody(vec3 position, vec3 velocity, double mass);
 
     int numberOfBodies() const;
-    std::vector<CelestialBody> &bodies();
     void writeToFile(std::string filename);
+    std::vector<CelestialBody> &bodies();
 
 private:
     std::vector<CelestialBody> m_bodies;
