@@ -11,5 +11,7 @@ int main()
     SolarSystem solarSystem;
     solarSystem.createCelestialBody(vec3(1,0,0), vec3(0,0,0), 15);
 
+    solarSystem.writeToFile("solar");
+
     return 0;
 }

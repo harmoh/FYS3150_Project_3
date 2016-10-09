@@ -3,6 +3,8 @@
 
 #include "celestialbody.h"
 #include <vector>
+#include <fstream>
+#include <string>
 
 class SolarSystem
 {
@@ -12,9 +14,11 @@ public:
 
     int numberOfBodies() const;
     std::vector<CelestialBody> &bodies();
+    void writeToFile(std::string filename);
 
 private:
     std::vector<CelestialBody> m_bodies;
+    std::ofstream ofile;
 };
 
 #endif // SOLAR_SYSTEM_H
