@@ -33,11 +33,14 @@ void SolarSystem::writeToFile(string filename)
     }
 
     ofile << "Number of bodies: " << numberOfBodies() << endl;
-    ofile <<"Comment line. " << endl;
+    ofile << "--------------------------------" << endl;
+    ofile << "Position: \t Velocity: " << endl;
     for(CelestialBody &body : m_bodies)
     {
         ofile << "[" << body.position.x() << ", " << body.position.y() << ", " <<
-                 body.position.z() << "]" << endl;
+                 body.position.z() << "] \t ";
+        ofile << "[" << body.velocity.x() << ", " << body.velocity.y() << ", " <<
+                 body.velocity.z() << "]" << endl;
     }
 }
 
