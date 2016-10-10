@@ -6,9 +6,11 @@ CONFIG -= qt
 SOURCES += main.cpp \
     vec3.cpp \
     solarsystem.cpp \
-    celestialbody.cpp
+    celestialbody.cpp \
+    euler.cpp
 
 HEADERS += \
     vec3.h \
     solarsystem.h \
-    celestialbody.h
+    celestialbody.h \
+    euler.h
