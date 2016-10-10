@@ -107,3 +107,9 @@ vec3 &vec3::operator/=(vec3 rhs)
     components[2] /= rhs[2];
     return *this;
 }
+
+ostream &operator<<(ostream &os, const vec3 &myVector)
+{
+    os << "[" << myVector.x() << ", " << myVector.y() << ", " << myVector.z() << "];";
+    return os;
+}

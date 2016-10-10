@@ -17,9 +17,9 @@ public:
     void printName(std::string name);
 
     // Get and set components
-    double x() {return components[0];}
-    double y() {return components[1];}
-    double z() {return components[2];}
+    double x() const {return components[0];}
+    double y() const {return components[1];}
+    double z() const {return components[2];}
     void setX(double x) {components[0] = x;}
     void setY(double y) {components[1] = y;}
     void setZ(double z) {components[2] = z;}
@@ -35,6 +35,8 @@ public:
     vec3 &operator-=(vec3 rhs);   // Componentwise subtraction with vector
     vec3 &operator/=(double rhs); // Componentwise division with scalar
     vec3 &operator/=(vec3 rhs);   // Componentwise division with vector
+
+    friend std::ostream& operator<<(std::ostream& os, const vec3& myVector);
 private:
     double components[3];
 };
