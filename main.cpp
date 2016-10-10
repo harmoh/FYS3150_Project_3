@@ -23,13 +23,13 @@ int main()
                 body.velocity << endl;
     }
 
-    int totalSteps = 1;
+    int totalSteps = 1000;
     double dt = 0.001;
     Euler integrator(dt);
     for(int step = 0; step < totalSteps; step++)
     {
         integrator.integrateOneStep(solarSystem);
-        solarSystem.writeToFile("solar");
+        solarSystem.writeToFile("position");
     }
 
     return 0;

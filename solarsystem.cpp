@@ -28,7 +28,7 @@ void SolarSystem::calculateForcesAndEnergy()
     for(int i = 0; i < numberOfBodies(); i++)
     {
         CelestialBody &body1 = m_bodies[i];
-        for(int j = 0; j < numberOfBodies(); i++)
+        for(int j = 0; j < numberOfBodies(); j++)
         {
             CelestialBody &body2 = m_bodies[j];
             vec3 deltaRVector = body1.position - body2.position;
@@ -77,9 +77,9 @@ void SolarSystem::writeToFile(string filename)
     for(CelestialBody &body : m_bodies)
     {
         ofile << "Position: \t [" << body.position.x() << ", " << body.position.y() << ", " <<
-                 body.position.z() << "] \t ";
-        ofile << "Velocity: \t [" << body.velocity.x() << ", " << body.velocity.y() << ", " <<
-                 body.velocity.z() << "]" << endl;
+                 body.position.z() << "]" << endl;
+        //ofile << "Velocity: \t [" << body.velocity.x() << ", " << body.velocity.y() << ", " <<
+        //         body.velocity.z() << "]" << endl;
     }
 }
 
