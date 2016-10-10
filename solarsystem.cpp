@@ -22,7 +22,7 @@ void SolarSystem::writeToFile(string filename)
 {
     filename.append(".txt");
 
-    if(ofile.good())
+    if(!ofile.good())
     {
         ofile.open(filename.c_str(), ofstream::out);
         if(!ofile.good())
@@ -32,14 +32,11 @@ void SolarSystem::writeToFile(string filename)
         }
     }
 
-    ofile << "Number of bodies: " << numberOfBodies() << endl;
-    ofile << "--------------------------------" << endl;
-    ofile << "Position: \t Velocity: " << endl;
     for(CelestialBody &body : m_bodies)
     {
-        ofile << "[" << body.position.x() << ", " << body.position.y() << ", " <<
+        ofile << "Position: \t [" << body.position.x() << ", " << body.position.y() << ", " <<
                  body.position.z() << "] \t ";
-        ofile << "[" << body.velocity.x() << ", " << body.velocity.y() << ", " <<
+        ofile << "Velocity: \t [" << body.velocity.x() << ", " << body.velocity.y() << ", " <<
                  body.velocity.z() << "]" << endl;
     }
 }
