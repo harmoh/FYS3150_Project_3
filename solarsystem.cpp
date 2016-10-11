@@ -1,4 +1,5 @@
 #include "solarsystem.h"
+#include <string>
 
 using namespace std;
 
@@ -7,9 +8,9 @@ SolarSystem::SolarSystem()
 
 }
 
-CelestialBody &SolarSystem::createCelestialBody(vec3 position, vec3 velocity, double mass)
+CelestialBody &SolarSystem::createCelestialBody(string name, vec3 position, vec3 velocity, double mass)
 {
-    m_bodies.push_back(CelestialBody(position, velocity, mass));
+    m_bodies.push_back(CelestialBody(name, position, velocity, mass));
     return m_bodies.back();
 }
 
@@ -76,7 +77,7 @@ void SolarSystem::writeToFile(string filename)
 
     for(CelestialBody &body : m_bodies)
     {
-        ofile << "Position: \t [" << body.position.x() << ", " << body.position.y() << ", " <<
+        ofile << body.getName() << ":\t[" << body.position.x() << "\t" << body.position.y() << "\t" <<
                  body.position.z() << "]" << endl;
         //ofile << "Velocity: \t [" << body.velocity.x() << ", " << body.velocity.y() << ", " <<
         //         body.velocity.z() << "]" << endl;
