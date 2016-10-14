@@ -99,7 +99,7 @@ void SolarSystem::openFileEarth()
 void SolarSystem::writeToFileEarth(int n)
 {
     CelestialBody &body = m_bodies[1];
-    ofile_earth << n+1 << setw(15) << setprecision(8) << body.position.x() <<
+    ofile_earth << setprecision(8) << body.position.x() <<
                    setw(15) << body.position.y() << setw(15) << body.position.z() << endl;
 }
 
