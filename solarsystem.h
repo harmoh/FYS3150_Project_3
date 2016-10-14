@@ -18,11 +18,14 @@ public:
     double kineticEnergy() const;
     double potentialEnergy() const;
     void writeToFile(std::string filename);
+    void openFileEarth();
+    void writeToFileEarth(int n);
     std::vector<CelestialBody> &bodies();
 
 private:
     std::vector<CelestialBody> m_bodies;
     std::ofstream ofile;
+    std::ofstream ofile_earth;
 
     vec3 m_angularMomentum;
     double m_kineticEnergy;

@@ -14,9 +14,8 @@ void Euler::integrateOneStep(SolarSystem &system)
 
     for(CelestialBody &body : system.bodies())
     {
+
         body.position += body.velocity * m_dt;
-        body.velocity -= body.force * m_dt;
-        //body.velocity += body.force / body.mass * m_dt;
-        std::cout << "Velocity = " << body.velocity << std::endl;
+        body.velocity += body.force /body.mass * m_dt;
     }
 }
