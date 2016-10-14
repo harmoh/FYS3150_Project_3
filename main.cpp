@@ -11,8 +11,8 @@ int main()
 {
     SolarSystem solarSystem;
 
-    solarSystem.createCelestialBody("Sun",      vec3(0, 0, 0),    vec3(0, 0, 0),  1.0);
-    solarSystem.createCelestialBody("Earth",    vec3(1, 0, 0),    vec3(0, 1, 0),  3e-6);
+    solarSystem.createCelestialBody("Sun",      vec3(0, 0, 0),    vec3(0, 0, 0),  1);
+    solarSystem.createCelestialBody("Earth",    vec3(1, 1, 0),    vec3(0, 0, 0),  3.0e-6);
 
     vector<CelestialBody> &bodies = solarSystem.bodies();
 
@@ -23,8 +23,10 @@ int main()
                 body.velocity << endl;
     }
 
-    int totalSteps = 1000;
-    double dt = 0.001;
+    int totalSteps = 10;
+    double t_initial = 0;
+    double t_final = 1;
+    double dt = (t_final - t_initial) / totalSteps;
     Euler integrator(dt);
     for(int step = 0; step < totalSteps; step++)
     {

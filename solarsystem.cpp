@@ -1,5 +1,8 @@
 #include "solarsystem.h"
 #include <string>
+#include <cmath>
+#include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -26,16 +29,30 @@ void SolarSystem::calculateForcesAndEnergy()
         body.force.zeros();
     }
 
+    double four_pi_squared = 4 * M_PI * M_PI;
     for(int i = 0; i < numberOfBodies(); i++)
     {
         CelestialBody &body1 = m_bodies[i];
         for(int j = 0; j < numberOfBodies(); j++)
         {
             CelestialBody &body2 = m_bodies[j];
-            vec3 deltaRVector = body1.position - body2.position;
-            double dr = deltaRVector.length();
+            vec3 deltaRVector2 = body2.position - body1.position;
+            vec3 deltaRVector1 = body1.position - body2.position;
+            double dr = deltaRVector1.length();
+            vec3 deltaRVector13 = (deltaRVector1 * deltaRVector1 * deltaRVector1);
 
             // Calculate the force and potential energy here
+            if(j != i)
+            {
+                body1.force = four_pi_squared / (deltaRVector1 * deltaRVector1 * deltaRVector1);
+                body2.force = four_pi_squared / (deltaRVector2 * deltaRVector2 * deltaRVector2);
+                //body2.force = four_pi_squared / (deltaRVector * deltaRVector * deltaRVector);
+                //body1.force = body1.mass * body2.mass / (deltaRVector * deltaRVector);
+                cout << "\ndeltaRVector = " << deltaRVector1 << endl;
+                cout << "deltaRVector3 = " << deltaRVector13 << endl;
+                cout << "dr = " << dr << endl;
+                cout << "Force = " << body1.force << endl;
+            }
         }
         m_kineticEnergy += 0.5 * body1.mass * body1.velocity.lengthSquared();
     }
@@ -77,8 +94,8 @@ void SolarSystem::writeToFile(string filename)
 
     for(CelestialBody &body : m_bodies)
     {
-        ofile << body.getName() << ":\t[" << body.position.x() << "\t" << body.position.y() << "\t" <<
-                 body.position.z() << "]" << endl;
+        ofile << body.getName() << ":\t[" << setprecision(4) << body.position.x() << ", " <<
+                 body.position.y() << ", " << body.position.z() << "]" << endl;
         //ofile << "Velocity: \t [" << body.velocity.x() << ", " << body.velocity.y() << ", " <<
         //         body.velocity.z() << "]" << endl;
     }

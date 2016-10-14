@@ -14,6 +14,7 @@ public:
     double mass;
 
     std::string getName() const {return name;}
+    double getMass() const {return mass;}
 
     CelestialBody(std::string name_temp, vec3 position, vec3 velocity, double mass);
     CelestialBody(std::string name_temp, double x, double y, double z, double vx, double vy, double vz, double mass);
