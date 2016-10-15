@@ -7,7 +7,7 @@ class Euler
 public:
     double m_dt;
     Euler(double dt);
-    void integrateOneStep(class SolarSystem &system);
+    void integrateOneStepEuler(class SolarSystem &system);
 };
 
 #endif // EULER_H

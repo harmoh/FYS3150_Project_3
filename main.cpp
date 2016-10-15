@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <time.h>
 #include "vec3.h"
 #include "celestialbody.h"
 #include "solarsystem.h"
@@ -25,14 +26,16 @@ int main()
     //                body.velocity << endl;
     //    }
 
-    int totalSteps = 1e5;
+    int totalSteps = 1e6;
     int t_initial = 0;
     double t_final = 1;
     double dt = (t_final - t_initial) / (double) totalSteps;
-    cout << "dt = " << dt << endl;
     bool verletIntegrator = true;
+    string method;
+    clock_t time_initial = clock();
     if(verletIntegrator)
     {
+        method = "Verlet";
         Verlet integratorVerlet(dt);
         solarSystem.openFile("positions");
         for(int step = 0; step < totalSteps; step++)
@@ -43,16 +46,23 @@ int main()
     }
     else
     {
+        method = "Euler";
         Euler integratorEuler(dt);
         solarSystem.openFile("positions");
         for(int step = 0; step < totalSteps; step++)
         {
-            integratorEuler.integrateOneStep(solarSystem);
+            integratorEuler.integrateOneStepEuler(solarSystem);
             solarSystem.writeToFile();
         }
     }
+    clock_t time_final = clock();
 
+    cout << "Integrator: " << method << endl;
+    cout << "n =\t" << totalSteps << endl;
+    cout << "dt =\t" << dt << endl;
 
+    double time_used = (time_final - time_initial) / (double) CLOCKS_PER_SEC;
+    cout << "Time used: " << time_used << " seconds." << endl;
 
     return 0;
 }

@@ -2,7 +2,7 @@
 
 import os
 
-os.system('c++ main.cpp celestialbody.cpp euler.cpp solarsystem.cpp vec3.cpp verlet.cpp -o main.o -O3 -I /usr/local/Cellar/armadillo/7.400.2/include -DARMA_DONT_USE_WRAPPER -lblas -llapack')
+os.system('c++ main.cpp celestialbody.cpp euler.cpp solarsystem.cpp vec3.cpp verlet.cpp -o main.o -O3 -std=c++11')
 os.system('./main.o')
 
 from math import *
@@ -27,7 +27,12 @@ def read_rho_wavefunctions(filename):
 # Fetching data by a call on read_x_u_v for three different n:
 x1, y1, x2, y2 = read_rho_wavefunctions('positions.txt')
 
-plt.plot(x1, y1, 'r-', linewidth = 1.0)
-plt.plot(x2, y2, 'b-', linewidth = 1.0)
+plt.title('Sun-Earth plot')
+plt.xlabel('x in AU')
+plt.ylabel('y in AU')
+plt.plot(x1, y1, 'r-', linewidth = 5.0, label = 'Sun')
+plt.plot(x2, y2, 'b-', linewidth = 1.0, label = 'Earth')
+plt.legend(loc='upper right',fancybox='True')
+plt.grid()
 
 plt.savefig('SunEarth.eps', format = 'eps', dpi = 10000)

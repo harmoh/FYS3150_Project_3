@@ -7,7 +7,7 @@ Euler::Euler(double dt) :
 
 }
 
-void Euler::integrateOneStep(SolarSystem &system)
+void Euler::integrateOneStepEuler(SolarSystem &system)
 {
     system.calculateForcesAndEnergy();
 
