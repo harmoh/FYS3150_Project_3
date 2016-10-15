@@ -65,14 +65,14 @@ double SolarSystem::potentialEnergy() const
     return m_potentialEnergy;
 }
 
-void SolarSystem::writeToFile(string filename)
+void SolarSystem::writeToFilePosition(string filename)
 {
     filename.append(".txt");
 
-    if(!ofile.good())
+    if(!ofile_position.good())
     {
-        ofile.open(filename.c_str(), ofstream::out);
-        if(!ofile.good())
+        ofile_position.open(filename.c_str(), ofstream::out);
+        if(!ofile_position.good())
         {
             cout << "Error opening file " << filename << ". Aborting!" << endl;
             terminate();
@@ -81,26 +81,30 @@ void SolarSystem::writeToFile(string filename)
 
     for(CelestialBody &body : m_bodies)
     {
-        ofile << body.getName() << ":\t[" << setprecision(4) << body.position.x() << ",   " <<
+        ofile_position << body.name << ":\t[" << setprecision(4) << body.position.x() << ",   " <<
                  body.position.y() << ",   " << body.position.z() << "]" << endl;
-        //ofile << "Velocity: \t [" << body.velocity.x() << ", " << body.velocity.y() << ", " <<
-        //         body.velocity.z() << "]" << endl;
     }
 }
 
-void SolarSystem::openFileEarth()
+void SolarSystem::openFile(string filename)
 {
-    string filenameEarth = "earth.txt";
-    ofile_earth.open(filenameEarth);
-    CelestialBody &body = m_bodies[1];
-    ofile_earth << body.getName() << "\t\tPosition:" << endl;
+    filename.append(".txt");
+    ofile.open(filename);
+    for(CelestialBody &body : m_bodies)
+    {
+        ofile << body.name << "\t\t\t\t\t\t\t\t";
+    }
+    ofile << endl;
 }
 
-void SolarSystem::writeToFileEarth(int n)
+void SolarSystem::writeToFile()
 {
-    CelestialBody &body = m_bodies[1];
-    ofile_earth << setprecision(8) << body.position.x() <<
-                   setw(15) << body.position.y() << setw(15) << body.position.z() << endl;
+    for(CelestialBody &body : m_bodies)
+    {
+        ofile << setprecision(8) << body.position.x() <<
+                   setw(15) << body.position.y() << setw(15) << body.position.z() << "\t\t\t";
+    }
+    ofile << endl;
 }
 
 std::vector<CelestialBody> &SolarSystem::bodies()

@@ -7,10 +7,12 @@ SOURCES += main.cpp \
     vec3.cpp \
     solarsystem.cpp \
     celestialbody.cpp \
-    euler.cpp
+    euler.cpp \
+    verlet.cpp
 
 HEADERS += \
     vec3.h \
     solarsystem.h \
     celestialbody.h \
-    euler.h
+    euler.h \
+    verlet.h
