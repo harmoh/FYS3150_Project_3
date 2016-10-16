@@ -15,6 +15,8 @@ void Verlet::integrateOneStepVerlet(SolarSystem &system)
     {
         body.acceleration = body.force / body.mass;
         body.position += m_dt * body.velocity + body.acceleration * m_dt * m_dt / 2;
-        body.velocity += (body.acceleration + body.acceleration) * m_dt / 2;
+
+        system.calculateForcesAndEnergy();
+        body.velocity += (body.force / body.mass + body.acceleration) * m_dt / 2;
     }
 }

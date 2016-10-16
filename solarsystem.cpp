@@ -42,6 +42,7 @@ void SolarSystem::calculateForcesAndEnergy()
             body2.force -= G * body1.mass * body2.mass * deltaRVector / (dr*dr*dr);
         }
         m_kineticEnergy += 0.5 * body1.mass * body1.velocity.lengthSquared();
+        m_potentialEnergy += body1.force.length() * body1.position.length();
     }
 }
 

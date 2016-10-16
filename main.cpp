@@ -26,7 +26,7 @@ int main()
     //                body.velocity << endl;
     //    }
 
-    int totalSteps = 1e6;
+    int totalSteps = 1e3;
     int t_initial = 0;
     double t_final = 1;
     double dt = (t_final - t_initial) / (double) totalSteps;
@@ -43,6 +43,14 @@ int main()
             integratorVerlet.integrateOneStepVerlet(solarSystem);
             solarSystem.writeToFile();
         }
+        for(CelestialBody &body : solarSystem.bodies())
+        {
+            if(body.name == "Earth")
+            {
+                double errorVerlet = body.position.length() - vec3 (1,0,0).length();
+                cout << "Error verlet for " << body.name << ": " << errorVerlet << endl;
+            }
+        }
     }
     else
     {
@@ -54,8 +62,20 @@ int main()
             integratorEuler.integrateOneStepEuler(solarSystem);
             solarSystem.writeToFile();
         }
+        for(CelestialBody &body : solarSystem.bodies())
+        {
+            if(body.name == "Earth")
+            {
+                double errorVerlet = body.position.length() - vec3 (1,0,0).length();
+                cout << "Error euler for " << body.name << ": " << errorVerlet << endl;
+            }
+        }
     }
     clock_t time_final = clock();
+
+    cout << "Kinetic energy: " << solarSystem.kineticEnergy() << endl;
+    cout << "Potential energy: " << solarSystem.potentialEnergy() << endl;
+    cout << "Total energy: " << solarSystem.totalEnergy() << endl;
 
     cout << "Integrator: " << method << endl;
     cout << "n =\t" << totalSteps << endl;
