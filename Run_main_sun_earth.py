@@ -37,4 +37,4 @@ plt.plot(x2, y2, 'b-', linewidth = 1.0, label = 'Earth')
 plt.legend(loc='upper right',fancybox='True')
 plt.grid()
 
-plt.savefig('SolarSystem.eps', format = 'eps', dpi = 1000, bbox_inches='tight')
+plt.savefig('SunEarth.eps', format = 'eps', dpi = 1000, bbox_inches='tight')
