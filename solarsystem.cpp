@@ -11,7 +11,7 @@ SolarSystem::SolarSystem()
 
 }
 
-CelestialBody &SolarSystem::createCelestialBody(string name, vec3 position, vec3 velocity, double mass)
+CelestialBody &SolarSystem::createCelBody(string name, vec3 position, vec3 velocity, double mass)
 {
     m_bodies.push_back(CelestialBody(name, position, velocity, mass));
     return m_bodies.back();
@@ -38,11 +38,13 @@ void SolarSystem::calculateForcesAndEnergy()
             CelestialBody &body2 = m_bodies[j];
             vec3 deltaRVector = body2.position - body1.position;
             double dr = deltaRVector.length();
-            body1.force += G * body1.mass * body2.mass * deltaRVector / (dr*dr*dr);
-            body2.force -= G * body1.mass * body2.mass * deltaRVector / (dr*dr*dr);
+            double dr3 = dr*dr*dr;
+            body1.force += G * body1.mass * body2.mass * deltaRVector / (dr3);
+            body2.force -= G * body1.mass * body2.mass * deltaRVector / (dr3);
+
+            m_potentialEnergy += body1.force.length() * dr;
         }
         m_kineticEnergy += 0.5 * body1.mass * body1.velocity.lengthSquared();
-        m_potentialEnergy += body1.force.length() * body1.position.length();
     }
 }
 
@@ -93,7 +95,7 @@ void SolarSystem::openFile(string filename)
     ofile.open(filename);
     for(CelestialBody &body : m_bodies)
     {
-        ofile << body.name << "\t\t\t\t\t\t\t\t";
+        ofile << body.name << "\t\t\t\t\t\t";
     }
     ofile << endl;
 }
@@ -102,8 +104,7 @@ void SolarSystem::writeToFile()
 {
     for(CelestialBody &body : m_bodies)
     {
-        ofile << setprecision(8) << body.position.x() <<
-                   setw(15) << body.position.y() << setw(15) << body.position.z() << "\t\t\t";
+        ofile << setprecision(8) << body.position.x() << setw(20) << body.position.y() << "\t\t";
     }
     ofile << endl;
 }

@@ -10,7 +10,7 @@ class SolarSystem
 {
 public:
     SolarSystem();
-    CelestialBody &createCelestialBody(std::string name, vec3 position, vec3 velocity, double mass);
+    CelestialBody &createCelBody(std::string name, vec3 position, vec3 velocity, double mass);
     void calculateForcesAndEnergy();
 
     int numberOfBodies() const;
