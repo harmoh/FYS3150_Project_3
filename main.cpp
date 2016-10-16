@@ -16,17 +16,17 @@ int main()
 
     // Using position in AU and velocity compared to the earth
 
-    solarSystem.createCelBody("Sun",        vec3(0, 0, 0),          vec3(0, 0, 0),  2e30);
-    solarSystem.createCelBody("Mercury",    vec3(0.387, 0, 0),      vec3(0, 1.59, 0),  3.3e23);
-    solarSystem.createCelBody("Venus",      vec3(-0.723, 0, 0),     vec3(0, -1.18, 0),  4.9e24);
-    solarSystem.createCelBody("Earth",      vec3(1, 0, 0),          vec3(0, 1, 0),  6e24);
-    //solarSystem.createCelBody("Moon",       vec3(1.00267, 0, 0),    vec3(0, 0.0343, 0),  3.65e-8);
-    solarSystem.createCelBody("Mars",       vec3(-1.52, 0, 0),      vec3(0, -0.808, 0),  6.6e23);
-    solarSystem.createCelBody("Jupiter",    vec3(5.2, 0, 0),        vec3(0, 0.439, 0),  1.9e27);
-    solarSystem.createCelBody("Saturn",     vec3(-9.58, 0, 0),      vec3(0, -0.325, 0),  5.5e26);
-    solarSystem.createCelBody("Uranus",     vec3(19.2, 0, 0),       vec3(0, 0.228, 0),  8.8e25);
-    solarSystem.createCelBody("Neptune",    vec3(-30.05, 0, 0),     vec3(0, -0.182, 0),  1.02e-26);
-    solarSystem.createCelBody("Pluto",      vec3(39.48, 0, 0),      vec3(0, 0.157, 0),  1.46e-22);
+    solarSystem.createCelBody("Sun",        vec3(0, 0, 0),          vec3(0, 0, 0),          2.0e30);
+    solarSystem.createCelBody("Mercury",    vec3(-0.387, 0, 0),     vec3(0, -1.59, 0),      3.3e23);
+    solarSystem.createCelBody("Venus",      vec3(0, -0.723, 0),     vec3(1.18, 0, 0),       4.9e24);
+    solarSystem.createCelBody("Earth",      vec3(1, 0, 0),          vec3(0, 1, 0),          6e24);
+    //solarSystem.createCelBody("Moon",       vec3(1.00267, 0, 0),    vec3(0, 0.0343, 0),     3.65e-8);
+    solarSystem.createCelBody("Mars",       vec3(0, 1.52, 0),       vec3(-0.808, 0, 0),     6.6e23);
+    solarSystem.createCelBody("Jupiter",    vec3(-5.2, 0, 0),       vec3(0, -0.439, 0),     1.9e27);
+    solarSystem.createCelBody("Saturn",     vec3(0, -9.58, 0),      vec3(0.325, 0, 0),      5.5e26);
+    solarSystem.createCelBody("Uranus",     vec3(19.2, 0, 0),       vec3(0, 0.228, 0),      8.8e25);
+    solarSystem.createCelBody("Neptune",    vec3(0, 30.05, 0),      vec3(-0.182, 0, 0),     1.02e-26);
+    solarSystem.createCelBody("Pluto",      vec3(-39.48, 0, 0),     vec3(0, -0.157, 0),     1.46e-22);
 
     for(CelestialBody &body : solarSystem.bodies())
     {
@@ -45,7 +45,7 @@ int main()
 
     int totalSteps = 1e5;
     int t_initial = 0;
-    double t_final = 1;
+    double t_final = 200;
     double dt = (t_final - t_initial) / (double) totalSteps;
     bool verletIntegrator = true;
     string method;
