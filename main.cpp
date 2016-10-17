@@ -42,9 +42,9 @@ int main()
     //                body.velocity << endl;
     //    }
 
-    int totalSteps = 1e6;
+    int totalSteps = 1e5;
     int t_initial = 0;
-    double t_final = 1;
+    double t_final = 10;
     double dt = (t_final - t_initial) / (double) totalSteps;
     bool verletIntegrator = true;
     string method;

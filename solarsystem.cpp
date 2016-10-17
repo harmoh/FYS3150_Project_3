@@ -91,22 +91,35 @@ void SolarSystem::writeToFilePosition(string filename)
 
 void SolarSystem::openFile(string filename)
 {
-    filename.append(".txt");
-    ofile.open(filename);
+    string filename_animation = filename;
+    filename_animation.append(".xyz");
+    ofile_animation.open(filename_animation);
+
+    string filename_plot = filename;
+    filename_plot.append(".txt");
+    ofile_plot.open(filename_plot);
+
     for(CelestialBody &body : m_bodies)
     {
-        ofile << body.name << "\t\t\t\t\t\t";
+        ofile_plot << body.name << "\t\t\t\t\t\t";
     }
-    ofile << endl;
+    ofile_plot << endl;
 }
 
 void SolarSystem::writeToFile()
 {
+    ofile_animation << numberOfBodies() << endl;
+    ofile_animation << "Comment line." << endl;
     for(CelestialBody &body : m_bodies)
     {
-        ofile << setprecision(8) << body.position.x() << setw(20) << body.position.y() << "\t\t";
+        ofile_animation << body.position.x() << " " << body.position.y() << " " << body.position.z() << "\n";
     }
-    ofile << endl;
+
+    for(CelestialBody &body : m_bodies)
+    {
+        ofile_plot << setprecision(8) << body.position.x() << setw(20) << body.position.y() << "\t\t";
+    }
+    ofile_plot << endl;
 }
 
 std::vector<CelestialBody> &SolarSystem::bodies()

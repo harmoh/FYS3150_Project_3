@@ -25,7 +25,8 @@ public:
 private:
     std::vector<CelestialBody> m_bodies;
     std::ofstream ofile_position;
-    std::ofstream ofile;
+    std::ofstream ofile_animation;
+    std::ofstream ofile_plot;
 
     vec3 m_angularMomentum;
     double m_kineticEnergy;
