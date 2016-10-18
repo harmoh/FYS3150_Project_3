@@ -21,7 +21,7 @@ int main()
     //solarSystem.createCelBody("Venus",      vec3(0, -0.723, 0),     vec3(1.18, 0, 0),       4.9e24);
     solarSystem.createCelBody("Earth",      vec3(1, 0, 0),          vec3(0, 1, 0),          6e24);
     //solarSystem.createCelBody("Mars",       vec3(0, 1.52, 0),       vec3(-0.808, 0, 0),     6.6e23);
-    solarSystem.createCelBody("Jupiter",    vec3(-5.2, 0, 0),       vec3(0, -0.439, 0),     1.9e27);
+    //solarSystem.createCelBody("Jupiter",    vec3(-5.2, 0, 0),       vec3(0, -0.439, 0),     1.9e27);
     //solarSystem.createCelBody("Saturn",     vec3(0, -9.58, 0),      vec3(0.325, 0, 0),      5.5e26);
     //solarSystem.createCelBody("Uranus",     vec3(19.2, 0, 0),       vec3(0, 0.228, 0),      8.8e25);
     //solarSystem.createCelBody("Neptune",    vec3(0, 30.05, 0),      vec3(-0.182, 0, 0),     1.02e-26);
@@ -42,9 +42,9 @@ int main()
     //                body.velocity << endl;
     //    }
 
-    int totalSteps = 1e5;
+    int totalSteps = 1e6;
     int t_initial = 0;
-    double t_final = 10;
+    double t_final = 1;
     double dt = (t_final - t_initial) / (double) totalSteps;
     bool verletIntegrator = true;
     string method;
