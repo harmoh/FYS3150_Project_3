@@ -3,7 +3,7 @@
 import os
 
 os.system('c++ main.cpp celestialbody.cpp euler.cpp solarsystem.cpp vec3.cpp verlet.cpp -o main.o -O3 -std=c++11')
-os.system('./main.o')
+os.system('./main.o 1') # Argument for choosing only sun and earth in the system. 
 
 from math import *
 import numpy as np
