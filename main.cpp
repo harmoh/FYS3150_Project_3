@@ -24,10 +24,11 @@ int main(int argc, char* argv[])
     else
     {
         method_arg = atoi(argv[1]); // First command line argument
-        cout << "Argument: " << method_arg << endl;
     }
 
     SolarSystem solarSystem;
+
+    double t_final = 1;
 
     if(method_arg == 1)
     {
@@ -40,6 +41,7 @@ int main(int argc, char* argv[])
         solarSystem.createCelBody("Sun",        vec3( 3.583187837707098E-03,  3.347917208376574E-03, -1.601566243263295E-04), vec3(-1.916797473876860E-06,  6.860577040555349E-06,  3.852105421771686E-08), 1.989e30);
         solarSystem.createCelBody("Earth",      vec3( 9.779167444303752E-01,  2.272281606873612E-01, -1.762900112459768E-04), vec3(-4.140900006551348E-03,  1.671297229409165E-02, -6.071663121998971E-07), 5.97e24);
         solarSystem.createCelBody("Jupiter",    vec3(-5.433021216987578E+00, -3.890762583943597E-01,  1.231202671627251E-01), vec3( 4.512629769156300E-04, -7.169976033688688E-03,  1.969934735867556E-05), 1.898e27);
+        t_final = 11.9;
     }
     else if(method_arg == 3)
     {
@@ -54,6 +56,7 @@ int main(int argc, char* argv[])
         solarSystem.createCelBody("Uranus",     vec3( 1.847687170457543E+01,  7.530306462979262E+00, -2.114037101346196E-01), vec3(-1.513092405140061E-03,  3.458857885545459E-03,  3.234920926043226E-05), 8.681e25);
         solarSystem.createCelBody("Neptune",    vec3( 2.825174937236003E+01, -9.949114169366872E+00, -4.462071175746522E-01), vec3( 1.021996736183022E-03,  2.979258351346539E-03, -8.531373744879276E-05), 1.0241e26);
         solarSystem.createCelBody("Pluto",      vec3( 9.396162791203736E+00, -3.182040737994854E+01,  6.870454791400117E-01), vec3( 3.068710230865929E-03,  2.387659693669338E-04, -9.029806182733669E-04), 1.307e22);
+        t_final = 250;
     }
     else
     {
@@ -113,8 +116,7 @@ int main(int argc, char* argv[])
 
     int totalSteps = 1e5;
     int t_initial = 0;
-    double t_final = 100;
-    double dt = (t_final - t_initial) / (double) totalSteps;
+    double dt = (t_final - t_initial) / (double) totalSteps; // Final time is set differently for each method
     bool verletIntegrator = true;
     string method;
     clock_t time_initial = clock();
@@ -130,6 +132,7 @@ int main(int argc, char* argv[])
         }
         for(CelestialBody &body : solarSystem.bodies())
         {
+            // Calculate error for the earth's position when initial position is (1,0,0) and time is for example 1 year.
             if(body.name == "Earth")
             {
                 double errorVerlet = body.position.length() - vec3 (1,0,0).length();
@@ -163,6 +166,7 @@ int main(int argc, char* argv[])
     cout << "Total energy: " << solarSystem.totalEnergy() << endl;
 
     cout << "Integrator: " << method << endl;
+    cout << "Final time (years): " << t_final << endl;
     cout << "n =\t" << totalSteps << endl;
     cout << "dt =\t" << dt << endl;
 
