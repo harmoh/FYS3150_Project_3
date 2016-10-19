@@ -32,20 +32,27 @@ int main(int argc, char* argv[])
 
     if(method_arg == 1)
     {
-        solarSystem.createCelBody("Sun", vec3(0, 0, 0), vec3(0, 0, 0), 1.989e30);
+        solarSystem.createCelBody("Sun", vec3(0, 0, 0), vec3(0, 0, 0), 2e30);
+        //solarSystem.createCelBody("Earth", vec3(1, 0, 0), vec3(0, 4.95720799, 0), 6e24); // Escape velocity
         solarSystem.createCelBody("Earth", vec3(1, 0, 0), vec3(0, 1, 0), 6e24);
     }
     else if(method_arg == 2)
     {
+        solarSystem.createCelBody("Sun",        vec3(0, 0, 0),      vec3(0, 0, 0),      2e30);
+        solarSystem.createCelBody("Earth",      vec3(1, 0, 0),      vec3(0, 1, 0),      6e24);
+        solarSystem.createCelBody("Jupiter",    vec3(-5.2, 0, 0),   vec3(0, -0.439, 0), 1.9e27);
+
         // Using position in AU and velocity in AU/day from NASA website at 06.10.16 at time 0:00:00 TDB
-        solarSystem.createCelBody("Sun",        vec3( 3.583187837707098E-03,  3.347917208376574E-03, -1.601566243263295E-04), vec3(-1.916797473876860E-06,  6.860577040555349E-06,  3.852105421771686E-08), 1.989e30);
-        solarSystem.createCelBody("Earth",      vec3( 9.779167444303752E-01,  2.272281606873612E-01, -1.762900112459768E-04), vec3(-4.140900006551348E-03,  1.671297229409165E-02, -6.071663121998971E-07), 5.97e24);
-        solarSystem.createCelBody("Jupiter",    vec3(-5.433021216987578E+00, -3.890762583943597E-01,  1.231202671627251E-01), vec3( 4.512629769156300E-04, -7.169976033688688E-03,  1.969934735867556E-05), 1.898e27);
+        //solarSystem.createCelBody("Sun",        vec3( 3.583187837707098E-03,  3.347917208376574E-03, -1.601566243263295E-04), vec3(-1.916797473876860E-06,  6.860577040555349E-06,  3.852105421771686E-08), 1.989e30);
+        //solarSystem.createCelBody("Earth",      vec3( 9.779167444303752E-01,  2.272281606873612E-01, -1.762900112459768E-04), vec3(-4.140900006551348E-03,  1.671297229409165E-02, -6.071663121998971E-07), 5.97e24);
+        //solarSystem.createCelBody("Jupiter",    vec3(-5.433021216987578E+00, -3.890762583943597E-01,  1.231202671627251E-01), vec3( 4.512629769156300E-04, -7.169976033688688E-03,  1.969934735867556E-05), 1.898e27);
+
         t_final = 11.9;
     }
     else if(method_arg == 3)
     {
-        // Using position in AU and velocity in AU/day from NASA website at 06.10.16 at time 0:00:00 TDB
+        // Using position in AU and velocity in AU/day from NASA website using Solar System
+        // Barycenter as the center of mass. Data is recieved at 06.10.16 at time 0:00:00 TDB.
         solarSystem.createCelBody("Sun",        vec3( 3.583187837707098E-03,  3.347917208376574E-03, -1.601566243263295E-04), vec3(-1.916797473876860E-06,  6.860577040555349E-06,  3.852105421771686E-08), 1.989e30);
         solarSystem.createCelBody("Mercury",    vec3(-1.689638050644479E-01,  2.746185253985868E-01,  3.783565039667143E-02), vec3(-2.941090431599825E-02, -1.400673667979914E-02,  1.552995718374029E-03), 3.302e23);
         solarSystem.createCelBody("Venus",      vec3( 2.261833743605355E-02, -7.233613245242075E-01, -1.122302675795243E-02), vec3( 2.008241010304477E-02,  4.625021426170730E-04, -1.152705875157388E-03), 4.8685e24);
@@ -101,34 +108,36 @@ int main(int argc, char* argv[])
 
     for(CelestialBody &body : solarSystem.bodies())
     {
-        if(method_arg == 1)
-        {
-            body.velocity *= 2*M_PI; // Convert from AU/day
-            body.mass /= 1.989e30; // Mass of the sun
-        }
-        else
+        if(method_arg == 3)
         {
             body.velocity *= 2*M_PI / earthUnitVelocity; // Convert from AU/day
             body.mass /= 1.989e30; // Mass of the sun
             //cout << body.name << " velocity vector: " << body.velocity << endl;
         }
+        else
+        {
+            body.velocity *= 2*M_PI; // Convert from AU/day
+            body.mass /= 2e30; // Mass of the sun
+        }
     }
 
-    int totalSteps = 1e5;
+    int totalSteps = 1e6;
     int t_initial = 0;
     double dt = (t_final - t_initial) / (double) totalSteps; // Final time is set differently for each method
-    bool verletIntegrator = true;
+    bool verletIntegrator = true; // Set to false for Euler integrator
     string method;
     clock_t time_initial = clock();
     if(verletIntegrator)
     {
         method = "Verlet";
         Verlet integratorVerlet(dt);
-        solarSystem.openFile("positions");
+        solarSystem.openFilePlot("positions");
+        solarSystem.openFileAnimation("positions");
         for(int step = 0; step < totalSteps; step++)
         {
             integratorVerlet.integrateOneStepVerlet(solarSystem);
-            solarSystem.writeToFile();
+            solarSystem.writeToFilePlot();
+            //solarSystem.writeToFileAnimation();
         }
         for(CelestialBody &body : solarSystem.bodies())
         {
@@ -144,11 +153,13 @@ int main(int argc, char* argv[])
     {
         method = "Euler";
         Euler integratorEuler(dt);
-        solarSystem.openFile("positions");
+        solarSystem.openFilePlot("positions");
+        solarSystem.openFileAnimation("positions");
         for(int step = 0; step < totalSteps; step++)
         {
             integratorEuler.integrateOneStepEuler(solarSystem);
-            solarSystem.writeToFile();
+            solarSystem.writeToFilePlot();
+            solarSystem.writeToFileAnimation();
         }
         for(CelestialBody &body : solarSystem.bodies())
         {
@@ -164,9 +175,10 @@ int main(int argc, char* argv[])
     cout << "Kinetic energy: " << solarSystem.kineticEnergy() << endl;
     cout << "Potential energy: " << solarSystem.potentialEnergy() << endl;
     cout << "Total energy: " << solarSystem.totalEnergy() << endl;
+    cout << "Angular momentum: " << solarSystem.angularMomentum() << endl;
 
-    cout << "Integrator: " << method << endl;
-    cout << "Final time (years): " << t_final << endl;
+    cout << "\nIntegrator: " << method << endl;
+    cout << "Final time: " << t_final << " year(s)." << endl;
     cout << "n =\t" << totalSteps << endl;
     cout << "dt =\t" << dt << endl;
 

@@ -17,9 +17,12 @@ public:
     double totalEnergy() const;
     double kineticEnergy() const;
     double potentialEnergy() const;
+    vec3 angularMomentum() const;
     void writeToFilePosition(std::string filename);
-    void openFile(std::string filename);
-    void writeToFile();
+    void openFileAnimation(std::string filename);
+    void openFilePlot(std::string filename);
+    void writeToFileAnimation();
+    void writeToFilePlot();
     std::vector<CelestialBody> &bodies();
 
 private:

@@ -42,6 +42,8 @@ void SolarSystem::calculateForcesAndEnergy()
             body1.force += G * body1.mass * body2.mass * deltaRVector / (dr3);
             body2.force -= G * body1.mass * body2.mass * deltaRVector / (dr3);
 
+            m_angularMomentum += deltaRVector * body1.velocity;
+
             m_potentialEnergy += body1.force.length() * dr;
         }
         m_kineticEnergy += 0.5 * body1.mass * body1.velocity.lengthSquared();
@@ -68,6 +70,11 @@ double SolarSystem::potentialEnergy() const
     return m_potentialEnergy;
 }
 
+vec3 SolarSystem::angularMomentum() const
+{
+    return m_angularMomentum;
+}
+
 void SolarSystem::writeToFilePosition(string filename)
 {
     filename.append(".txt");
@@ -89,15 +96,16 @@ void SolarSystem::writeToFilePosition(string filename)
     }
 }
 
-void SolarSystem::openFile(string filename)
+void SolarSystem::openFileAnimation(string filename)
 {
-    string filename_animation = filename;
-    filename_animation.append(".xyz");
-    ofile_animation.open(filename_animation);
+    filename.append(".xyz");
+    ofile_animation.open(filename);
+}
 
-    string filename_plot = filename;
-    filename_plot.append(".txt");
-    ofile_plot.open(filename_plot);
+void SolarSystem::openFilePlot(string filename)
+{
+    filename.append(".txt");
+    ofile_plot.open(filename);
 
     for(CelestialBody &body : m_bodies)
     {
@@ -106,7 +114,7 @@ void SolarSystem::openFile(string filename)
     ofile_plot << endl;
 }
 
-void SolarSystem::writeToFile()
+void SolarSystem::writeToFileAnimation()
 {
     ofile_animation << numberOfBodies() << endl;
     ofile_animation << "Comment line." << endl;
@@ -114,7 +122,10 @@ void SolarSystem::writeToFile()
     {
         ofile_animation << body.position.x() << " " << body.position.y() << " " << body.position.z() << "\n";
     }
+}
 
+void SolarSystem::writeToFilePlot()
+{
     for(CelestialBody &body : m_bodies)
     {
         ofile_plot << setprecision(8) << body.position.x() << setw(20) << body.position.y() << "\t\t";
