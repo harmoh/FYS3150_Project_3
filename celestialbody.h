@@ -12,6 +12,7 @@ public:
     vec3 velocity;
     vec3 acceleration;
     vec3 force;
+    vec3 angularMomentum;
     double mass;
 
     CelestialBody(std::string name_temp, vec3 position, vec3 velocity, double mass);

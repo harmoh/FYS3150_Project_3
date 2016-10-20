@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
     {
         solarSystem.createCelBody("Sun",        vec3(0, 0, 0),      vec3(0, 0, 0),      2e30);
         solarSystem.createCelBody("Earth",      vec3(1, 0, 0),      vec3(0, 1, 0),      6e24);
-        solarSystem.createCelBody("Jupiter",    vec3(-5.2, 0, 0),   vec3(0, -0.439, 0), 1.9e27);
+        solarSystem.createCelBody("Jupiter",    vec3(-5.2, 0, 0),   vec3(0, -0.439, 0), 1.9e28);
 
         // Using position in AU and velocity in AU/day from NASA website at 06.10.16 at time 0:00:00 TDB
         //solarSystem.createCelBody("Sun",        vec3( 3.583187837707098E-03,  3.347917208376574E-03, -1.601566243263295E-04), vec3(-1.916797473876860E-06,  6.860577040555349E-06,  3.852105421771686E-08), 1.989e30);
@@ -63,7 +63,16 @@ int main(int argc, char* argv[])
         solarSystem.createCelBody("Uranus",     vec3( 1.847687170457543E+01,  7.530306462979262E+00, -2.114037101346196E-01), vec3(-1.513092405140061E-03,  3.458857885545459E-03,  3.234920926043226E-05), 8.681e25);
         solarSystem.createCelBody("Neptune",    vec3( 2.825174937236003E+01, -9.949114169366872E+00, -4.462071175746522E-01), vec3( 1.021996736183022E-03,  2.979258351346539E-03, -8.531373744879276E-05), 1.0241e26);
         solarSystem.createCelBody("Pluto",      vec3( 9.396162791203736E+00, -3.182040737994854E+01,  6.870454791400117E-01), vec3( 3.068710230865929E-03,  2.387659693669338E-04, -9.029806182733669E-04), 1.307e22);
-        t_final = 250;
+        //t_final = 250;
+        t_final = 0.24;
+    }
+    else if(method_arg == 4)
+    {
+        solarSystem.createCelBody("Sun", vec3(0, 0, 0), vec3(0, 0, 0), 1.989e30);
+        solarSystem.createCelBody("Mercury", vec3(0.3075, 0, 0), vec3(0, 1.9799, 0), 3.3e23);
+        //solarSystem.createCelBody("Mercury", vec3(0.387, 0, 0), vec3(0, 1.59, 0), 3.3e23);
+
+        t_final = 0.24;
     }
     else
     {

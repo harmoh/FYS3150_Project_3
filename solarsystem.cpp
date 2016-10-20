@@ -42,6 +42,13 @@ void SolarSystem::calculateForcesAndEnergy()
             body1.force += G * body1.mass * body2.mass * deltaRVector / (dr3);
             body2.force -= G * body1.mass * body2.mass * deltaRVector / (dr3);
 
+            if(body1.name == "Sun" && body2.name == "Mercury")
+            {
+                body2.angularMomentum = deltaRVector * body2.velocity;
+                body1.force *= 1 + 3 * body2.angularMomentum * body2.angularMomentum / (dr * dr * 299792458);
+                body2.force *= 1 + 3 * body2.angularMomentum * body2.angularMomentum / (dr * dr * 299792458);
+            }
+
             m_angularMomentum += deltaRVector * body1.velocity;
 
             m_potentialEnergy += body1.force.length() * dr;
