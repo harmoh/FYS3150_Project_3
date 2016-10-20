@@ -44,6 +44,13 @@ void vec3::zeros()
     components[2] = 0;
 }
 
+void vec3::max()
+{
+    components[0] = 1e10;
+    components[1] = 1e10;
+    components[2] = 1e10;
+}
+
 vec3 &vec3::operator+=(double rhs)
 {
     components[0] += rhs;
@@ -110,6 +117,6 @@ vec3 &vec3::operator/=(vec3 rhs)
 
 ostream &operator<<(ostream &os, const vec3 &myVector)
 {
-    os << "[" << myVector.x() << ", " << myVector.y() << ", " << myVector.z() << "];";
+    os << "[" << myVector.x() << ", " << myVector.y() << ", " << myVector.z() << "]";
     return os;
 }

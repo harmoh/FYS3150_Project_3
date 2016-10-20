@@ -45,8 +45,18 @@ void SolarSystem::calculateForcesAndEnergy()
             if(body1.name == "Sun" && body2.name == "Mercury")
             {
                 body2.angularMomentum = deltaRVector * body2.velocity;
-                body1.force *= 1 + 3 * body2.angularMomentum * body2.angularMomentum / (dr * dr * 299792458);
-                body2.force *= 1 + 3 * body2.angularMomentum * body2.angularMomentum / (dr * dr * 299792458);
+                body1.force *= 1 + 3 * body2.angularMomentum * body2.angularMomentum / (dr * dr * 63239.7263);
+                body2.force *= 1 + 3 * body2.angularMomentum * body2.angularMomentum / (dr * dr * 63239.7263);
+            }
+
+            if(dr > body2.maxPosition.length())
+            {
+                body2.maxPosition = deltaRVector;
+            }
+
+            if(dr < body2.minPosition.length())
+            {
+                body2.minPosition = deltaRVector;
             }
 
             m_angularMomentum += deltaRVector * body1.velocity;
@@ -103,12 +113,6 @@ void SolarSystem::writeToFilePosition(string filename)
     }
 }
 
-void SolarSystem::openFileAnimation(string filename)
-{
-    filename.append(".xyz");
-    ofile_animation.open(filename);
-}
-
 void SolarSystem::openFilePlot(string filename)
 {
     filename.append(".txt");
@@ -121,14 +125,10 @@ void SolarSystem::openFilePlot(string filename)
     ofile_plot << endl;
 }
 
-void SolarSystem::writeToFileAnimation()
+void SolarSystem::openFileAnimation(string filename)
 {
-    ofile_animation << numberOfBodies() << endl;
-    ofile_animation << "Comment line." << endl;
-    for(CelestialBody &body : m_bodies)
-    {
-        ofile_animation << body.position.x() << " " << body.position.y() << " " << body.position.z() << "\n";
-    }
+    filename.append(".xyz");
+    ofile_animation.open(filename);
 }
 
 void SolarSystem::writeToFilePlot()
@@ -138,6 +138,16 @@ void SolarSystem::writeToFilePlot()
         ofile_plot << setprecision(8) << body.position.x() << setw(20) << body.position.y() << "\t\t";
     }
     ofile_plot << endl;
+}
+
+void SolarSystem::writeToFileAnimation()
+{
+    ofile_animation << numberOfBodies() << endl;
+    ofile_animation << "Comment line." << endl;
+    for(CelestialBody &body : m_bodies)
+    {
+        ofile_animation << body.position.x() << " " << body.position.y() << " " << body.position.z() << "\n";
+    }
 }
 
 std::vector<CelestialBody> &SolarSystem::bodies()

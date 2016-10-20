@@ -11,6 +11,7 @@ public:
 
     // Actions
     void zeros();
+    void max();
     double lengthSquared();
     double length();
     void print();

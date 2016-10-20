@@ -15,6 +15,9 @@ public:
     vec3 angularMomentum;
     double mass;
 
+    vec3 minPosition; // Perihelion
+    vec3 maxPosition; // Aphelion
+
     CelestialBody(std::string name_temp, vec3 position, vec3 velocity, double mass);
     CelestialBody(std::string name_temp, double x, double y, double z, double vx, double vy, double vz, double mass);
     void resetForce();

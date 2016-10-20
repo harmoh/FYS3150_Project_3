@@ -27,13 +27,12 @@ def read(filename):
 # Fetching data by a call on read_x_u_v for three different n:
 x1, y1, x2, y2 = read('positions.txt')
 
-plt.title('Solar system')
 plt.xlabel('x in AU')
 plt.ylabel('y in AU')
-plt.rcParams.update({'font.size': 8})
+plt.rcParams.update({'font.size': 10})
 #plt.axis([-1.5, 1.5, -1.5, 1.5])
 plt.plot(x1, y1, 'r-', linewidth = 2.0, label = 'Sun')
-plt.plot(x2, y2, 'b-', linewidth = 1.0, label = 'Mercury')
+plt.plot(x2, y2, 'm-', linewidth = 0.5, label = 'Mercury')
 plt.legend(loc='upper right',fancybox='True')
 plt.grid()
 
