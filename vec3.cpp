@@ -26,6 +26,13 @@ double vec3::length()
     return sqrt(lengthSquared());
 }
 
+vec3 vec3::cross(vec3 otherVector)
+{
+    return vec3(y()*otherVector.z() - z()*otherVector.y(),
+                z()*otherVector.x() - x()*otherVector.z(),
+                x()*otherVector.y() - y()*otherVector.x());
+}
+
 void vec3::print()
 {
     cout << "[" << components[0] << ", " << components[1] << ", " << components[2] << "]" << endl;

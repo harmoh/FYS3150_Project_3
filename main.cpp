@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
     {
         solarSystem.createCelBody("Sun",        vec3(0, 0, 0),      vec3(0, 0, 0),      2e30);
         solarSystem.createCelBody("Earth",      vec3(1, 0, 0),      vec3(0, 1, 0),      6e24);
-        solarSystem.createCelBody("Jupiter",    vec3(-5.2, 0, 0),   vec3(0, -0.439, 0), 1.9e28);
+        solarSystem.createCelBody("Jupiter",    vec3(-5.2, 0, 0),   vec3(0, -0.439, 0), 1.9e27);
 
         t_final = 11.9;
     }
@@ -65,7 +65,7 @@ int main(int argc, char* argv[])
         solarSystem.createCelBody("Sun", vec3(0, 0, 0), vec3(0, 0, 0), 2e30);
         solarSystem.createCelBody("Mercury", vec3(0.3075, 0, 0), vec3(0, 1.98, 0), 3.3e23);
 
-        t_final = 0.24;
+        t_final = 0.2408;
     }
     else
     {
@@ -97,7 +97,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    int totalSteps = 1e5;
+    int totalSteps = 1e4;
     int t_initial = 0;
     double dt = (t_final - t_initial) / (double) totalSteps; // Final time is set differently for each method
     bool verletIntegrator = true; // Set to false for Euler integrator

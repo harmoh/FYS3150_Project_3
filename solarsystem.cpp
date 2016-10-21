@@ -44,7 +44,7 @@ void SolarSystem::calculateForcesAndEnergy()
 
             if(body1.name == "Sun" && body2.name == "Mercury")
             {
-                body2.angularMomentum = deltaRVector * body2.velocity;
+                body2.angularMomentum = deltaRVector.cross(body2.velocity);
                 body1.force *= 1 + 3 * body2.angularMomentum * body2.angularMomentum / (dr * dr * 63239.7263);
                 body2.force *= 1 + 3 * body2.angularMomentum * body2.angularMomentum / (dr * dr * 63239.7263);
             }
@@ -59,7 +59,7 @@ void SolarSystem::calculateForcesAndEnergy()
                 body2.minPosition = deltaRVector;
             }
 
-            m_angularMomentum += deltaRVector * body1.velocity;
+            m_angularMomentum += deltaRVector.cross(body1.velocity);
 
             m_potentialEnergy += body1.force.length() * dr;
         }
@@ -122,6 +122,7 @@ void SolarSystem::openFilePlot(string filename)
     {
         ofile_plot << body.name << "\t\t\t\t\t\t";
     }
+    ofile_plot << setiosflags(ios::showpoint | ios::uppercase);
     ofile_plot << endl;
 }
 
@@ -129,13 +130,15 @@ void SolarSystem::openFileAnimation(string filename)
 {
     filename.append(".xyz");
     ofile_animation.open(filename);
+    ofile_plot << setiosflags(ios::showpoint | ios::uppercase);
 }
 
 void SolarSystem::writeToFilePlot()
 {
     for(CelestialBody &body : m_bodies)
     {
-        ofile_plot << setprecision(8) << body.position.x() << setw(20) << body.position.y() << "\t\t";
+        ofile_plot << setprecision(8) << body.position.x() << setw(15) << body.position.y() <<
+                      setw(15) << body.position.z() << "\t";
     }
     ofile_plot << endl;
 }

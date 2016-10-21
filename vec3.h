@@ -14,6 +14,7 @@ public:
     void max();
     double lengthSquared();
     double length();
+    vec3 cross(vec3 otherVector);
     void print();
     void printName(std::string name);
 

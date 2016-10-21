@@ -19,10 +19,10 @@ def read(filename):
         words = line.split()
         x1.append(float(words[0]))
         y1.append(float(words[1]))
-        x2.append(float(words[2]))
-        y2.append(float(words[3]))
-        x3.append(float(words[4]))
-        y3.append(float(words[5]))
+        x2.append(float(words[3]))
+        y2.append(float(words[4]))
+        x3.append(float(words[6]))
+        y3.append(float(words[7]))
     infile.close()
     return x1, y1, x2, y2, x3, y3
 
