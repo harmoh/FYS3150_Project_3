@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
 
     SolarSystem solarSystem;
 
-    double t_final = 1;
+    double t_final = 1; // In years. Set to 1 be default and is used for Sun-Earth system
 
     if(methodArg == 1)
     {
@@ -65,7 +65,8 @@ int main(int argc, char* argv[])
         solarSystem.createCelBody("Sun", vec3(0, 0, 0), vec3(0, 0, 0), 2e30);
         solarSystem.createCelBody("Mercury", vec3(0.3075, 0, 0), vec3(0, 1.98, 0), 3.3e23);
 
-        t_final = 0.2408;
+        t_final = 100;
+        //t_final = 0.2408;
     }
     else
     {
@@ -97,7 +98,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    int totalSteps = 1e4;
+    int totalSteps = 1e7;
     int t_initial = 0;
     double dt = (t_final - t_initial) / (double) totalSteps; // Final time is set differently for each method
     bool verletIntegrator = true; // Set to false for Euler integrator
@@ -112,7 +113,7 @@ int main(int argc, char* argv[])
         for(int step = 0; step < totalSteps; step++)
         {
             integratorVerlet.integrateOneStepVerlet(solarSystem);
-            solarSystem.writeToFilePlot();
+            //solarSystem.writeToFilePlot();
             //solarSystem.writeToFileAnimation();
         }
         for(CelestialBody &body : solarSystem.bodies())
@@ -131,7 +132,7 @@ int main(int argc, char* argv[])
                 cout << "Perihelion of " << body.name << " is:\t" <<
                         body.minPosition.length() << " AU" << endl;
                 cout << "Perihelion angle of " << body.name << " is:\t" <<
-                        atan(body.minPosition.y() / body.minPosition.x()) << "°" << endl;
+                        atan2(body.minPosition.y() , body.minPosition.x()) << "°" << endl;
             }
         }
     }
