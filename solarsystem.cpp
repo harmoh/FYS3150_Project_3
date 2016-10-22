@@ -60,8 +60,6 @@ void SolarSystem::calculateForcesAndEnergy()
             }
 
             m_angularMomentum += deltaRVector.cross(body1.velocity);
-
-            //m_potentialEnergy += body1.force.length() * dr;
         }
         m_potentialEnergy += body1.force.length() * body1.position.length();
         m_kineticEnergy += 0.5 * body1.mass * body1.velocity.lengthSquared();
@@ -110,7 +108,7 @@ void SolarSystem::writeToFilePosition(string filename)
     for(CelestialBody &body : m_bodies)
     {
         ofile_position << body.name << ":\t[" << setprecision(4) << body.position.x() << ",   " <<
-                 body.position.y() << ",   " << body.position.z() << "]" << endl;
+                          body.position.y() << ",   " << body.position.z() << "]" << endl;
     }
 }
 
@@ -134,14 +132,18 @@ void SolarSystem::openFileAnimation(string filename)
     ofile_plot << setiosflags(ios::showpoint | ios::uppercase);
 }
 
-void SolarSystem::writeToFilePlot()
+void SolarSystem::writeToFilePlot(int n)
 {
-    for(CelestialBody &body : m_bodies)
+    int skip = 100;
+    if(n % skip == 0)
     {
-        ofile_plot << setprecision(8) << body.position.x() << setw(15) << body.position.y() <<
-                      setw(15) << body.position.z() << "\t";
+        for(CelestialBody &body : m_bodies)
+        {
+            ofile_plot << setprecision(8) << body.position.x() << setw(15) << body.position.y() <<
+                          setw(15) << body.position.z() << "\t";
+        }
+        ofile_plot << endl;
     }
-    ofile_plot << endl;
 }
 
 void SolarSystem::writeToFileAnimation()

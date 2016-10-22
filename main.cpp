@@ -98,7 +98,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    int totalSteps = 1e6;
+    int totalSteps = 1e8;
     int t_initial = 0;
     double dt = (t_final - t_initial) / (double) totalSteps; // Final time is set differently for each method
     bool verletIntegrator = true; // Set to false for Euler integrator
@@ -113,7 +113,7 @@ int main(int argc, char* argv[])
         for(int step = 0; step < totalSteps; step++)
         {
             integratorVerlet.integrateOneStepVerlet(solarSystem);
-            solarSystem.writeToFilePlot();
+            //solarSystem.writeToFilePlot(step);
             //solarSystem.writeToFileAnimation();
         }
         for(CelestialBody &body : solarSystem.bodies())
@@ -146,7 +146,7 @@ int main(int argc, char* argv[])
         for(int step = 0; step < totalSteps; step++)
         {
             integratorEuler.integrateOneStepEuler(solarSystem);
-            solarSystem.writeToFilePlot();
+            solarSystem.writeToFilePlot(step);
             solarSystem.writeToFileAnimation();
         }
         for(CelestialBody &body : solarSystem.bodies())
