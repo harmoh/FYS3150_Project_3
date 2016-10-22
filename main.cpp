@@ -110,12 +110,41 @@ int main(int argc, char* argv[])
         Verlet integratorVerlet(dt);
         solarSystem.openFilePlot("positions");
         solarSystem.openFileAnimation("positions");
+
+        // Set some helper variables before we start the time integration.
+        double rPreviousPrevious 	= 0;	// Mercury-Sun-distance two times steps ago.
+        double rPrevious            = 0;	// Mercury-Sun-distance of the previous time step.
+
+        vec3 previousPosition(0,0,0);		// Mercury-Sun position vector of the previous time step.
+
         for(int step = 0; step < totalSteps; step++)
         {
             integratorVerlet.integrateOneStepVerlet(solarSystem);
             //solarSystem.writeToFilePlot(step);
-            //solarSystem.writeToFileAnimation();
+            //solarSystem.writeToFileAnimation(step);
+
+            // Compute the current Mercury-Sun distance. This assumes there is a vector of planets,
+            // called m_bodies, available, in which the Sun is m_bodies[0] and Mercury is m_bodies[1].
+            double rCurrent = (solarSystem.bodies().at(1).position - solarSystem.bodies().at(0).position).length();
+
+            // Check if the *previous* time step was a minimum for the Mercury-Sun distance. I.e. check
+            // if the previous distance is smaller than the current one *and* the previous previous one.
+            if (rCurrent > rPrevious && rPrevious < rPreviousPrevious)
+            {
+                // If we are perihelion, print *previous* angle (in radians) to terminal.
+                double x = previousPosition.x();
+                double y = previousPosition.y();
+                solarSystem.bodies().at(1).perihelionAngle = atan2(y,x) * 180/M_PI * 3600;
+            }
+
+            // Update the helper variables (current, previous, previousPrevious).
+            rPreviousPrevious 	= rPrevious;
+            rPrevious           = rCurrent;
+            previousPosition	= solarSystem.bodies().at(1).position - solarSystem.bodies().at(0).position;
+
         }
+        cout << "Perihelion angle:\t\t" << solarSystem.bodies().at(1).perihelionAngle << " arc seconds" << endl;
+
         for(CelestialBody &body : solarSystem.bodies())
         {
             // Calculate error for the earth's position when initial position is (1,0,0) and
@@ -133,7 +162,7 @@ int main(int argc, char* argv[])
                 cout << "Perihelion of " << body.name << " is:\t" <<
                         body.minPosition.length() << " AU" << endl;
                 cout << "Perihelion angle of " << body.name << " is:\t" <<
-                        atan2(body.minPosition.y() , body.minPosition.x()) << "°" << endl;
+                        body.perihelionAngleTest << " arc seconds" << endl;
             }
         }
     }
@@ -147,7 +176,7 @@ int main(int argc, char* argv[])
         {
             integratorEuler.integrateOneStepEuler(solarSystem);
             solarSystem.writeToFilePlot(step);
-            solarSystem.writeToFileAnimation();
+            solarSystem.writeToFileAnimation(step);
         }
         for(CelestialBody &body : solarSystem.bodies())
         {

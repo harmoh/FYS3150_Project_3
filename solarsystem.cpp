@@ -47,8 +47,31 @@ void SolarSystem::calculateForcesAndEnergy()
                 body2.angularMomentum = deltaRVector.cross(body2.velocity);
                 body1.force *= 1 + 3 * body2.angularMomentum * body2.angularMomentum / (dr * dr * 63239.7263);
                 body2.force *= 1 + 3 * body2.angularMomentum * body2.angularMomentum / (dr * dr * 63239.7263);
-            }
 
+                if(body2.counter % 3 == 0)
+                {
+                    // Check if the *previous* time step was a minimum for the Mercury-Sun distance. I.e. check
+                    // if the previous distance is smaller than the current one *and* the previous previous one.
+                    if (dr > body2.rPrevious && body2.rPrevious < body2.rPreviousPrevious)
+                    {
+                        // If we are perihelion, print *previous* angle (in radians) to terminal.
+                        double x = body2.previousPosition.x();
+                        double y = body2.previousPosition.y();
+                        body2.perihelionAngleTest = atan2(y,x) * 180/M_PI * 3600;
+
+                        //cout << "Perihelion angle test: " << body2.perihelionAngleTest <<
+                        //        " \twhere\tx = " << x << " and\ty = " << y << endl;
+                        //cout << "Test: dr: " << dr << ", rPrevious: " << body2.rPrevious <<
+                        //        " and rPreviousPrevious: " << body2.rPreviousPrevious << endl;
+                    }
+
+                    // Update the helper variables (current, previous, previousPrevious).
+                    body2.rPreviousPrevious = body2.rPrevious;
+                    body2.rPrevious = dr;
+                    body2.previousPosition = deltaRVector;
+                }
+                body2.counter++;
+            }
             if(dr > body2.maxPosition.length())
             {
                 body2.maxPosition = deltaRVector;
@@ -146,13 +169,17 @@ void SolarSystem::writeToFilePlot(int n)
     }
 }
 
-void SolarSystem::writeToFileAnimation()
+void SolarSystem::writeToFileAnimation(int n)
 {
-    ofile_animation << numberOfBodies() << endl;
-    ofile_animation << "Comment line." << endl;
-    for(CelestialBody &body : m_bodies)
+    int skip = 100;
+    if(n % skip == 0)
     {
-        ofile_animation << body.position.x() << " " << body.position.y() << " " << body.position.z() << "\n";
+        ofile_animation << numberOfBodies() << endl;
+        ofile_animation << "Comment line." << endl;
+        for(CelestialBody &body : m_bodies)
+        {
+            ofile_animation << body.position.x() << " " << body.position.y() << " " << body.position.z() << "\n";
+        }
     }
 }
 

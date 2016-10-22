@@ -21,7 +21,7 @@ public:
     void writeToFilePosition(std::string filename);
     void openFileAnimation(std::string filename);
     void openFilePlot(std::string filename);
-    void writeToFileAnimation();
+    void writeToFileAnimation(int n);
     void writeToFilePlot(int n);
     std::vector<CelestialBody> &bodies();
 

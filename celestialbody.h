@@ -17,6 +17,12 @@ public:
 
     vec3 minPosition; // Perihelion
     vec3 maxPosition; // Aphelion
+    double perihelionAngle;
+    double perihelionAngleTest;
+    double rPreviousPrevious;
+    double rPrevious;
+    int counter;
+    vec3 previousPosition;
 
     CelestialBody(std::string name_temp, vec3 position, vec3 velocity, double mass);
     CelestialBody(std::string name_temp, double x, double y, double z, double vx, double vy, double vz, double mass);
