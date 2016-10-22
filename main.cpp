@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
     if(methodArg == 1)
     {
         solarSystem.createCelBody("Sun", vec3(0, 0, 0), vec3(0, 0, 0), 2e30);
-        //solarSystem.createCelBody("Earth", vec3(1, 0, 0), vec3(0, 4.95720799, 0), 6e24); // Escape velocity
+        //solarSystem.createCelBody("Earth", vec3(1, 0, 0), vec3(0, 1.416, 0), 6e24); // Escape velocity
         solarSystem.createCelBody("Earth", vec3(1, 0, 0), vec3(0, 1, 0), 6e24);
     }
     else if(methodArg == 2)
@@ -98,7 +98,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    int totalSteps = 1e7;
+    int totalSteps = 1e6;
     int t_initial = 0;
     double dt = (t_final - t_initial) / (double) totalSteps; // Final time is set differently for each method
     bool verletIntegrator = true; // Set to false for Euler integrator
@@ -113,7 +113,7 @@ int main(int argc, char* argv[])
         for(int step = 0; step < totalSteps; step++)
         {
             integratorVerlet.integrateOneStepVerlet(solarSystem);
-            //solarSystem.writeToFilePlot();
+            solarSystem.writeToFilePlot();
             //solarSystem.writeToFileAnimation();
         }
         for(CelestialBody &body : solarSystem.bodies())
@@ -123,7 +123,8 @@ int main(int argc, char* argv[])
             if(methodArg == 1 && body.name == "Earth")
             {
                 double errorVerlet = body.position.length() - vec3 (1,0,0).length();
-                cout << "Error verlet for " << body.name << ": " << errorVerlet << endl;
+                cout << "Error for " << body.name << ":\t" << errorVerlet << endl;
+                cout << "Angular momentum:\t" << solarSystem.angularMomentum() << endl;
             }
             if((methodArg == 3 || methodArg == 4) && body.name == "Mercury")
             {
@@ -153,7 +154,7 @@ int main(int argc, char* argv[])
             if(body.name == "Earth")
             {
                 double errorVerlet = body.position.length() - vec3 (1,0,0).length();
-                cout << "Error euler for " << body.name << ": " << errorVerlet << endl;
+                cout << "Error for " << body.name << ":\t" << errorVerlet << endl;
             }
         }
     }
@@ -162,7 +163,6 @@ int main(int argc, char* argv[])
     cout << "\nKinetic energy:\t\t" << solarSystem.kineticEnergy() << endl;
     cout << "Potential energy:\t" << solarSystem.potentialEnergy() << endl;
     cout << "Total energy:\t\t" << solarSystem.totalEnergy() << endl;
-    cout << "Angular momentum:\t" << solarSystem.angularMomentum() << endl;
 
     cout << "\nIntegrator: " << method << endl;
     cout << "Final time: " << t_final << " year(s)." << endl;

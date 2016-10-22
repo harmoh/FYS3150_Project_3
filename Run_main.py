@@ -8,7 +8,6 @@ os.system('./main.o 3') # Argument for calculating system for all planets (inclu
 from math import *
 import numpy as np
 from matplotlib import pyplot as plt
-from mayavi import mlab
 
 def read(filename):
     infile = open(filename, 'r')
