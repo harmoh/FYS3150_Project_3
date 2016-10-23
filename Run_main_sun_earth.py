@@ -25,7 +25,7 @@ def read(filename):
     return x1, y1, x2, y2
 
 # Fetching data by a call on read_x_u_v for three different n:
-x1, y1, x2, y2 = read('positions.txt')
+x1, y1, x2, y2 = read('Positions.txt')
 
 plt.xlabel('x in AU')
 plt.ylabel('y in AU')

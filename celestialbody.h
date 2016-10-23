@@ -18,7 +18,6 @@ public:
     vec3 minPosition; // Perihelion
     vec3 maxPosition; // Aphelion
     double perihelionAngle;
-    double perihelionAngleTest;
     double rPreviousPrevious;
     double rPrevious;
     int counter;

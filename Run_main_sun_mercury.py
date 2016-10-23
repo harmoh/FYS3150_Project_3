@@ -12,28 +12,23 @@ from matplotlib import pyplot as plt
 def read(filename):
     infile = open(filename, 'r')
     # Elements to be read in file:
-    x1 = []; y1 = []; x2 = []; y2 = [];
+    x = []; y = [];
     # Read lines except for the first one:
     lines = infile.readlines()[1:]
     for line in lines:
         words = line.split()
-        x1.append(float(words[0]))
-        y1.append(float(words[1]))
-        x2.append(float(words[3]))
-        y2.append(float(words[4]))
+        x.append(float(words[0]))
+        y.append(float(words[1]))
     infile.close()
-    return x1, y1, x2, y2
+    return x, y,
 
 # Fetching data by a call on read_x_u_v for three different n:
-x1, y1, x2, y2 = read('positions.txt')
+x, y = read('PerihelionAngle.txt')
 
-plt.xlabel('x in AU')
-plt.ylabel('y in AU')
+plt.xlabel('Years')
+plt.ylabel('Perhelion angle in arc seconds')
 plt.rcParams.update({'font.size': 10})
-#plt.axis([-1.5, 1.5, -1.5, 1.5])
-plt.plot(x1, y1, 'r-', linewidth = 2.0, label = 'Sun')
-plt.plot(x2, y2, 'm-', linewidth = 0.5, label = 'Mercury')
-plt.legend(loc='upper right',fancybox='True')
+plt.plot(x, y)
 plt.grid()
 
-plt.savefig('SunMercury.eps', format = 'eps', dpi = 1000, bbox_inches='tight')
+plt.savefig('PerihelionAngle.eps', format = 'eps', dpi = 1000, bbox_inches='tight')

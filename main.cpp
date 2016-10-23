@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
 
     SolarSystem solarSystem;
 
-    double t_final = 1; // In years. Set to 1 be default and is used for Sun-Earth system
+    solarSystem.t_final = 1; // In years. Set to 1 be default and is used for Sun-Earth system
 
     if(methodArg == 1)
     {
@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
         solarSystem.createCelBody("Earth",      vec3(1, 0, 0),      vec3(0, 1, 0),      6e24);
         solarSystem.createCelBody("Jupiter",    vec3(-5.2, 0, 0),   vec3(0, -0.439, 0), 1.9e27);
 
-        t_final = 11.9;
+        solarSystem.t_final = 11.9;
     }
     else if(methodArg == 3)
     {
@@ -58,19 +58,13 @@ int main(int argc, char* argv[])
         solarSystem.createCelBody("Uranus",     vec3( 1.847687170457543E+01,  7.530306462979262E+00, -2.114037101346196E-01), vec3(-1.513092405140061E-03,  3.458857885545459E-03,  3.234920926043226E-05), 8.681e25);
         solarSystem.createCelBody("Neptune",    vec3( 2.825174937236003E+01, -9.949114169366872E+00, -4.462071175746522E-01), vec3( 1.021996736183022E-03,  2.979258351346539E-03, -8.531373744879276E-05), 1.0241e26);
         solarSystem.createCelBody("Pluto",      vec3( 9.396162791203736E+00, -3.182040737994854E+01,  6.870454791400117E-01), vec3( 3.068710230865929E-03,  2.387659693669338E-04, -9.029806182733669E-04), 1.307e22);
-        t_final = 250;
+        solarSystem.t_final = 250;
     }
     else if(methodArg == 4)
     {
         solarSystem.createCelBody("Sun", vec3(0, 0, 0), vec3(0, 0, 0), 2e30);
         solarSystem.createCelBody("Mercury", vec3(0.3075, 0, 0), vec3(0, 1.98, 0), 3.3e23);
-
-        t_final = 100;
-        //t_final = 0.2408;
-    }
-    else
-    {
-        cout << "Wrong number." << endl;
+        solarSystem.t_final = 10;
     }
 
     double earthUnitVelocity = 1.0;
@@ -98,23 +92,29 @@ int main(int argc, char* argv[])
         }
     }
 
-    int totalSteps = 1e9;
+    solarSystem.totalSteps = 1e8;
     int t_initial = 0;
-    double dt = (t_final - t_initial) / (double) totalSteps; // Final time is set differently for each method
+    double dt = (solarSystem.t_final - t_initial) / (double) solarSystem.totalSteps; // Final time is set differently for each method
     bool verletIntegrator = true; // Set to false for Euler integrator
     string method;
+    int skipPrint = 100;
     clock_t time_initial = clock();
     if(verletIntegrator)
     {
         method = "Verlet";
         Verlet integratorVerlet(dt);
-        solarSystem.openFilePlot("positions");
-        solarSystem.openFileAnimation("positions");
-        for(int step = 0; step < totalSteps; step++)
+        solarSystem.openFilePlot("Positions");
+        solarSystem.openFileAnimation("Positions");
+        solarSystem.openFilePerihelion("PerihelionAngle");
+        for(int step = 0; step < solarSystem.totalSteps; step++)
         {
             integratorVerlet.integrateOneStepVerlet(solarSystem);
-            //solarSystem.writeToFilePlot(step);
-            //solarSystem.writeToFileAnimation(step);
+            if(step % skipPrint == 0)
+            {
+                //solarSystem.writeToFilePlot();
+                //solarSystem.writeToFileAnimation();
+                //solarSystem.writeToFilePerihelion(step);
+            }
         }
 
         for(CelestialBody &body : solarSystem.bodies())
@@ -134,7 +134,7 @@ int main(int argc, char* argv[])
                 cout << "Perihelion of " << body.name << " is:\t" <<
                         body.minPosition.length() << " AU" << endl;
                 cout << "Perihelion angle of " << body.name << " is:\t" <<
-                        body.perihelionAngleTest << " arc seconds" << endl;
+                        body.perihelionAngle << " arc seconds" << endl;
             }
         }
     }
@@ -142,13 +142,12 @@ int main(int argc, char* argv[])
     {
         method = "Euler";
         Euler integratorEuler(dt);
-        solarSystem.openFilePlot("positions");
-        solarSystem.openFileAnimation("positions");
-        for(int step = 0; step < totalSteps; step++)
+        solarSystem.openFilePlot("Positions");
+        solarSystem.openFileAnimation("Positions");
+        for(int step = 0; step < solarSystem.totalSteps; step++)
         {
             integratorEuler.integrateOneStepEuler(solarSystem);
-            solarSystem.writeToFilePlot(step);
-            solarSystem.writeToFileAnimation(step);
+            solarSystem.writeToFilePlot();
         }
         for(CelestialBody &body : solarSystem.bodies())
         {
@@ -166,8 +165,8 @@ int main(int argc, char* argv[])
     cout << "Total energy:\t\t" << solarSystem.totalEnergy() << endl;
 
     cout << "\nIntegrator: " << method << endl;
-    cout << "Final time: " << t_final << " year(s)." << endl;
-    cout << "n =\t" << totalSteps << endl;
+    cout << "Final time: " << solarSystem.t_final << " year(s)." << endl;
+    cout << "n =\t" << solarSystem.totalSteps << endl;
     cout << "dt =\t" << dt << endl;
 
     double time_used = (time_final - time_initial) / (double) CLOCKS_PER_SEC;

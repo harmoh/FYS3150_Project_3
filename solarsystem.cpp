@@ -45,8 +45,11 @@ void SolarSystem::calculateForcesAndEnergy()
             if(body1.name == "Sun" && body2.name == "Mercury")
             {
                 body2.angularMomentum = deltaRVector.cross(body2.velocity);
-                body1.force *= 1 + 3 * body2.angularMomentum * body2.angularMomentum / (dr * dr * 63239.7263);
-                body2.force *= 1 + 3 * body2.angularMomentum * body2.angularMomentum / (dr * dr * 63239.7263);
+                //body1.force *= 1 + 3 * body2.angularMomentum * body2.angularMomentum / (dr * dr * 63239.7263 * 63239.7263);
+                //body2.force *= 1 + 3 * body2.angularMomentum * body2.angularMomentum / (dr * dr * 63239.7263) * 63239.7263;
+
+                body1.force *= 1 + 3 * body2.angularMomentum.lengthSquared() / (deltaRVector.lengthSquared() * 63239.7263 * 63239.7263);
+                body2.force *= 1 + 3 * body2.angularMomentum.lengthSquared() / (deltaRVector.lengthSquared() * 63239.7263 * 63239.7263);
 
                 if(body2.counter % 3 == 0)
                 {
@@ -57,21 +60,17 @@ void SolarSystem::calculateForcesAndEnergy()
                         // If we are perihelion, print *previous* angle (in radians) to terminal.
                         double x = body2.previousPosition.x();
                         double y = body2.previousPosition.y();
-                        body2.perihelionAngleTest = atan2(y,x) * 180/M_PI * 3600;
-
-                        //cout << "Perihelion angle test: " << body2.perihelionAngleTest <<
-                        //        " \twhere\tx = " << x << " and\ty = " << y << endl;
-                        //cout << "Test: dr: " << dr << ", rPrevious: " << body2.rPrevious <<
-                        //        " and rPreviousPrevious: " << body2.rPreviousPrevious << endl;
+                        body2.perihelionAngle = atan2(y,x) * 180/M_PI * 3600;
+                        writeToFilePerihelion(body2.counter/3);
                     }
 
-                    // Update the helper variables (current, previous, previousPrevious).
+                    // Update the helper variables (previous, previousPrevious).
                     body2.rPreviousPrevious = body2.rPrevious;
                     body2.rPrevious = dr;
                     body2.previousPosition = deltaRVector;
                 }
-                body2.counter++;
             }
+            body2.counter++;
             if(dr > body2.maxPosition.length())
             {
                 body2.maxPosition = deltaRVector;
@@ -114,27 +113,6 @@ vec3 SolarSystem::angularMomentum() const
     return m_angularMomentum;
 }
 
-void SolarSystem::writeToFilePosition(string filename)
-{
-    filename.append(".txt");
-
-    if(!ofile_position.good())
-    {
-        ofile_position.open(filename.c_str(), ofstream::out);
-        if(!ofile_position.good())
-        {
-            cout << "Error opening file " << filename << ". Aborting!" << endl;
-            terminate();
-        }
-    }
-
-    for(CelestialBody &body : m_bodies)
-    {
-        ofile_position << body.name << ":\t[" << setprecision(4) << body.position.x() << ",   " <<
-                          body.position.y() << ",   " << body.position.z() << "]" << endl;
-    }
-}
-
 void SolarSystem::openFilePlot(string filename)
 {
     filename.append(".txt");
@@ -148,6 +126,13 @@ void SolarSystem::openFilePlot(string filename)
     ofile_plot << endl;
 }
 
+void SolarSystem::openFilePerihelion(string filename)
+{
+    filename.append(".txt");
+    ofile_perihelion.open(filename);
+    ofile_perihelion << setiosflags(ios::showpoint | ios::uppercase);
+}
+
 void SolarSystem::openFileAnimation(string filename)
 {
     filename.append(".xyz");
@@ -155,32 +140,38 @@ void SolarSystem::openFileAnimation(string filename)
     ofile_plot << setiosflags(ios::showpoint | ios::uppercase);
 }
 
-void SolarSystem::writeToFilePlot(int n)
+void SolarSystem::writeToFilePlot()
 {
-    int skip = 100;
-    if(n % skip == 0)
+    for(CelestialBody &body : m_bodies)
     {
-        for(CelestialBody &body : m_bodies)
+        ofile_plot << setprecision(8) << body.position.x() << setw(15) << body.position.y() <<
+                      setw(15) << body.position.z() << "\t";
+    }
+    ofile_plot << endl;
+
+}
+
+void SolarSystem::writeToFilePerihelion(int counter)
+{
+    double step = counter * t_final / totalSteps;
+    for(CelestialBody &body : bodies())
+    {
+        if(body.name == "Mercury")
         {
-            ofile_plot << setprecision(8) << body.position.x() << setw(15) << body.position.y() <<
-                          setw(15) << body.position.z() << "\t";
+            ofile_perihelion << step << setw(15) << setprecision(8) << body.perihelionAngle << endl;
         }
-        ofile_plot << endl;
     }
 }
 
-void SolarSystem::writeToFileAnimation(int n)
+void SolarSystem::writeToFileAnimation()
 {
-    int skip = 100;
-    if(n % skip == 0)
+    ofile_animation << numberOfBodies() << endl;
+    ofile_animation << "Comment line." << endl;
+    for(CelestialBody &body : m_bodies)
     {
-        ofile_animation << numberOfBodies() << endl;
-        ofile_animation << "Comment line." << endl;
-        for(CelestialBody &body : m_bodies)
-        {
-            ofile_animation << body.position.x() << " " << body.position.y() << " " << body.position.z() << "\n";
-        }
+        ofile_animation << body.position.x() << " " << body.position.y() << " " << body.position.z() << "\n";
     }
+
 }
 
 std::vector<CelestialBody> &SolarSystem::bodies()
