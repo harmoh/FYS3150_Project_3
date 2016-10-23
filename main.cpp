@@ -41,7 +41,6 @@ int main(int argc, char* argv[])
         solarSystem.createCelBody("Sun",        vec3(0, 0, 0),      vec3(0, 0, 0),      2e30);
         solarSystem.createCelBody("Earth",      vec3(1, 0, 0),      vec3(0, 1, 0),      6e24);
         solarSystem.createCelBody("Jupiter",    vec3(-5.2, 0, 0),   vec3(0, -0.439, 0), 1.9e27);
-
         solarSystem.t_final = 11.9;
     }
     else if(methodArg == 3)
@@ -64,7 +63,7 @@ int main(int argc, char* argv[])
     {
         solarSystem.createCelBody("Sun", vec3(0, 0, 0), vec3(0, 0, 0), 2e30);
         solarSystem.createCelBody("Mercury", vec3(0.3075, 0, 0), vec3(0, 1.98, 0), 3.3e23);
-        solarSystem.t_final = 10;
+        solarSystem.t_final = 100;
     }
 
     double earthUnitVelocity = 1.0;
@@ -92,12 +91,12 @@ int main(int argc, char* argv[])
         }
     }
 
-    solarSystem.totalSteps = 1e8;
+    solarSystem.totalSteps = 1e6;
     int t_initial = 0;
     double dt = (solarSystem.t_final - t_initial) / (double) solarSystem.totalSteps; // Final time is set differently for each method
     bool verletIntegrator = true; // Set to false for Euler integrator
     string method;
-    int skipPrint = 100;
+    int skipPrint = 10;
     clock_t time_initial = clock();
     if(verletIntegrator)
     {
@@ -111,7 +110,7 @@ int main(int argc, char* argv[])
             integratorVerlet.integrateOneStepVerlet(solarSystem);
             if(step % skipPrint == 0)
             {
-                //solarSystem.writeToFilePlot();
+                solarSystem.writeToFilePlot();
                 //solarSystem.writeToFileAnimation();
                 //solarSystem.writeToFilePerihelion(step);
             }

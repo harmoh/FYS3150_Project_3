@@ -14,7 +14,7 @@ public:
     void calculateForcesAndEnergy();
 
     double t_final;
-    int totalSteps;
+    long int totalSteps;
 
     int numberOfBodies() const;
     double totalEnergy() const;

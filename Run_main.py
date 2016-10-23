@@ -2,8 +2,8 @@
 
 import os
 
-os.system('c++ main.cpp celestialbody.cpp euler.cpp solarsystem.cpp vec3.cpp verlet.cpp -o main.o -O3 -std=c++11')
-os.system('./main.o 3') # Argument for calculating system for all planets (including Pluto)
+#os.system('c++ main.cpp celestialbody.cpp euler.cpp solarsystem.cpp vec3.cpp verlet.cpp -o main.o -O3 -std=c++11')
+#os.system('./main.o 3') # Argument for calculating system for all planets (including Pluto)
 
 from math import *
 import numpy as np
@@ -55,19 +55,18 @@ x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4, x5, y5, z5, x6, y6, z6, x7, y7, 
 
 plt.xlabel('x in AU')
 plt.ylabel('y in AU')
-#plt.zlabel('z in AU')
 plt.rcParams.update({'font.size': 10})
-#plt.axis([-40, 60, -40, 50])
+plt.axis([-40, 60, -40, 50])
 plt.plot(x1, y1, 'r-', linewidth = 0.5, label = 'Sun')
 plt.plot(x2, y2, 'm-', linewidth = 0.5, label = 'Mercury')
 plt.plot(x3, y3, 'c-', linewidth = 0.5, label = 'Venus')
-#plt.plot(x4, y4, 'b-', linewidth = 0.5, label = 'Earth')
-#plt.plot(x5, y5, 'r-', linewidth = 0.5, label = 'Mars')
-#plt.plot(x6, y6, 'g-', linewidth = 0.5, label = 'Jupiter')
-#plt.plot(x7, y7, 'y-', linewidth = 1.0, label = 'Saturn')
-#plt.plot(x8, y8, 'c-', linewidth = 1.0, label = 'Uranus')
-#plt.plot(x9, y9, 'b-', linewidth = 1.0, label = 'Neptune')
-#plt.plot(x10, y10, 'k-', linewidth = 1.0, label = 'Pluto')
+plt.plot(x4, y4, 'b-', linewidth = 0.5, label = 'Earth')
+plt.plot(x5, y5, 'r-', linewidth = 0.5, label = 'Mars')
+plt.plot(x6, y6, 'g-', linewidth = 0.5, label = 'Jupiter')
+plt.plot(x7, y7, 'y-', linewidth = 1.0, label = 'Saturn')
+plt.plot(x8, y8, 'c-', linewidth = 1.0, label = 'Uranus')
+plt.plot(x9, y9, 'b-', linewidth = 1.0, label = 'Neptune')
+plt.plot(x10, y10, 'k-', linewidth = 1.0, label = 'Pluto')
 plt.legend(loc='upper right',fancybox='True')
 plt.grid()
 

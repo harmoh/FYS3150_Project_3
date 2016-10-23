@@ -20,7 +20,7 @@ public:
     double perihelionAngle;
     double rPreviousPrevious;
     double rPrevious;
-    int counter;
+    long int counter;
     vec3 previousPosition;
 
     CelestialBody(std::string name_temp, vec3 position, vec3 velocity, double mass);

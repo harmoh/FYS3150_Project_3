@@ -44,26 +44,29 @@ void SolarSystem::calculateForcesAndEnergy()
 
             if(body1.name == "Sun" && body2.name == "Mercury")
             {
+                // Add correction for a relativistic gravity in order to see effect of
+                // perihelion precession of Mercury
                 body2.angularMomentum = deltaRVector.cross(body2.velocity);
-                //body1.force *= 1 + 3 * body2.angularMomentum * body2.angularMomentum / (dr * dr * 63239.7263 * 63239.7263);
-                //body2.force *= 1 + 3 * body2.angularMomentum * body2.angularMomentum / (dr * dr * 63239.7263) * 63239.7263;
-
                 body1.force *= 1 + 3 * body2.angularMomentum.lengthSquared() / (deltaRVector.lengthSquared() * 63239.7263 * 63239.7263);
                 body2.force *= 1 + 3 * body2.angularMomentum.lengthSquared() / (deltaRVector.lengthSquared() * 63239.7263 * 63239.7263);
 
+                // This function is called three times for each position when using the Verlet
+                // solver, check only once per position.
                 if(body2.counter % 3 == 0)
                 {
-                    // Check if the *previous* time step was a minimum for the Mercury-Sun distance. I.e. check
-                    // if the previous distance is smaller than the current one *and* the previous previous one.
+                    // Check if the *previous* time step was a minimum for the Mercury-Sun distance.
+                    // I.e. check if the previous distance is smaller than the current one *and*
+                    // the previous previous one.
                     if (dr > body2.rPrevious && body2.rPrevious < body2.rPreviousPrevious)
                     {
                         // If we are perihelion, print *previous* angle (in radians) to terminal.
                         double x = body2.previousPosition.x();
                         double y = body2.previousPosition.y();
+
+                        // Find perihelion angle and convert from radians to arc seconds
                         body2.perihelionAngle = atan2(y,x) * 180/M_PI * 3600;
                         writeToFilePerihelion(body2.counter/3);
                     }
-
                     // Update the helper variables (previous, previousPrevious).
                     body2.rPreviousPrevious = body2.rPrevious;
                     body2.rPrevious = dr;
@@ -71,11 +74,11 @@ void SolarSystem::calculateForcesAndEnergy()
                 }
             }
             body2.counter++;
+
             if(dr > body2.maxPosition.length())
             {
                 body2.maxPosition = deltaRVector;
             }
-
             if(dr < body2.minPosition.length())
             {
                 body2.minPosition = deltaRVector;
@@ -171,7 +174,6 @@ void SolarSystem::writeToFileAnimation()
     {
         ofile_animation << body.position.x() << " " << body.position.y() << " " << body.position.z() << "\n";
     }
-
 }
 
 std::vector<CelestialBody> &SolarSystem::bodies()
