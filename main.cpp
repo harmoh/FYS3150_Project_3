@@ -91,12 +91,13 @@ int main(int argc, char* argv[])
         }
     }
 
-    solarSystem.totalSteps = 1e6;
+    solarSystem.totalSteps = 1e7;
     int t_initial = 0;
-    double dt = (solarSystem.t_final - t_initial) / (double) solarSystem.totalSteps; // Final time is set differently for each method
+    // Final time is set differently for each method
+    double dt = (solarSystem.t_final - t_initial) / (double) solarSystem.totalSteps;
     bool verletIntegrator = true; // Set to false for Euler integrator
     string method;
-    int skipPrint = 10;
+    int skipPrint = 10; // Only print for every 10th step
     clock_t time_initial = clock();
     if(verletIntegrator)
     {
@@ -112,10 +113,8 @@ int main(int argc, char* argv[])
             {
                 solarSystem.writeToFilePlot();
                 //solarSystem.writeToFileAnimation();
-                //solarSystem.writeToFilePerihelion(step);
             }
         }
-
         for(CelestialBody &body : solarSystem.bodies())
         {
             // Calculate error for the earth's position when initial position is (1,0,0) and

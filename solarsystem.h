@@ -31,7 +31,6 @@ public:
 
 private:
     std::vector<CelestialBody> m_bodies;
-    std::ofstream ofile_position;
     std::ofstream ofile_animation;
     std::ofstream ofile_plot;
     std::ofstream ofile_perihelion;
