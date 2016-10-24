@@ -86,7 +86,7 @@ void SolarSystem::calculateForcesAndEnergy()
 
             m_angularMomentum += deltaRVector.cross(body1.velocity);
         }
-        m_potentialEnergy += body1.force.length() * body1.position.length();
+        m_potentialEnergy -= body1.force.length() * body1.position.length();
         m_kineticEnergy += 0.5 * body1.mass * body1.velocity.lengthSquared();
     }
 }
